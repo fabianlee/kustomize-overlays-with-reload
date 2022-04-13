@@ -2,6 +2,7 @@
 
 ## base
 
+* reloader - watches for changing configmaps and [reloads](https://github.com/stakater/Reloader) with rolling restart
 * nginx-index-html - nginx app with configmap for index.html
 * nginx-basic-auth - nginx app with configmap for index.html and .htpasswd BASIC auth
 * hello-app - simple hello app 
