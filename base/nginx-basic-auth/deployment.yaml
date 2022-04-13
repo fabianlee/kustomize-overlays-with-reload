@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: default
+  labels:
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-deployment
+  template:
+    metadata:
+      labels:
+        app: nginx-deployment
+        version: v1
+      # avoid istio envoy auto-injection
+      annotations:
+        sidecar.istio.io/inject: "false"
+        # allow overlays to specify
+        configmap.reloader.stakater.com/reload: nginx-cm,nginx-conf-configmap
+    spec:
+
+      volumes:
+      - name: nginx-homedir
+        # can project multiple volume sources into same dir
+        # https://kubernetes.io/docs/concepts/storage/projected-volumes/
+        projected:
+          sources:
+          - configMap:
+              name: nginx-cm
+              items:
+                 - key: cm-index.html
+                   path: index.html
+          - secret:
+              name: htpasswd-secret
+              items:
+                - key: htpasswd
+                  path: .htpasswd
+      - name: nginx-conf
+        configMap:
+          name: nginx-conf-configmap
+          items:
+            - key: nginx.conf
+              path: nginx.conf
+      - name: log
+        emptyDir: {}
+
+
+      containers:
+      - name: nginx
+        image: nginx:1.21.6-alpine # https://hub.docker.com/_/nginx/
+
+        volumeMounts:
+        - name: nginx-homedir
+          mountPath: "/usr/share/nginx/html"
+          readOnly: true
+        - mountPath: /etc/nginx
+          readOnly: true
+          name: nginx-conf
+        - mountPath: /var/log/nginx
+          name: log
+
+        ports:
+        - containerPort: 80

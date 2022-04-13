@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-app-v1-service
+  namespace: default
+  labels:
+    app: hello-app-v1
+spec:
+  ports:
+  - name: http
+    # port=available to other containers
+    port: 8080
+    # targetPort=exposed from inside container
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: hello-app-v1

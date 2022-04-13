@@ -1,0 +1,9 @@
+---
+
+# place objects into its own namespace
+namespace: reloader
+
+resources:
+- namespace.yaml
+- https://github.com/stakater/Reloader/deployments/kubernetes
+

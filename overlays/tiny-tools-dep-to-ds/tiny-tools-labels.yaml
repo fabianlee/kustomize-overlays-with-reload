@@ -1,0 +1,17 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tiny-tools-dep
+  labels:
+    app: tiny-tools-dep-to-ds
+spec:
+  updateStrategy:
+    type: OnDelete # 'OnDelete' mimics older 1.5 functionality where manual pod deletion does update
+  selector:
+    matchLabels:
+      app: tiny-tools-dep-to-ds
+  template:
+    metadata:
+      labels:
+        app: tiny-tools-dep-to-ds

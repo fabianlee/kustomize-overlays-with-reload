@@ -1,0 +1,30 @@
+---
+
+namespace: nginx-auth
+
+resources:
+- namespace.yaml
+- deployment.yaml
+- service.yaml
+
+configMapGenerator:
+# for index.html
+- name: nginx-cm
+  namespace: default
+  files:
+  - cm-index.html
+# for nginx.conf
+- name: nginx-conf-configmap
+  namespace: default
+  files:
+  - nginx.conf
+
+# for .htpasswd basic auth
+secretGenerator:
+- name: htpasswd-secret
+  files:
+  - htpasswd
+
+generatorOptions:
+  disableNameSuffixHash: true
+

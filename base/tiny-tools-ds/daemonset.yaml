@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: tiny-tools-ds
+  namespace: default
+  labels:
+    app: tiny-tools-ds
+spec:
+  selector:
+    matchLabels:
+      app: tiny-tools-ds
+  updateStrategy:
+    type: OnDelete # 'OnDelete' mimics older 1.5 functionality where manual pod deletion does update
+  template:
+    metadata:
+      labels:
+        app: tiny-tools-ds
+      # avoid istio envy project if being auto-injected
+      annotations:
+        sidecar.istio.io/inject: "false"
+    spec:
+      containers:
+      - name: tiny-tools
+        image: giantswarm/tiny-tools:3.12
+        args:
+        - /bin/sh
+        - -c
+        - touch /tmp/healthy; date; echo "starting..."; sleep 30d
+        livenessProbe:
+          exec:
+            command:
+            - cat
+            - /tmp/healthy
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - /tmp/healthy
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

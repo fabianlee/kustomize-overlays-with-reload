@@ -1,0 +1,30 @@
+---
+
+namespace: hello
+namePrefix: pre-
+nameSuffix: "-suffix"
+commonLabels:
+  app: hello
+commonAnnotations:
+  my-annotation: hello
+
+resources:
+- namespace.yaml
+- configmap.yaml
+- deployment.yaml
+- service.yaml
+
+configMapGenerator:
+- name: my-configmap-generator
+  files:
+  - index.html
+- name: my-inline-configmap
+  literals:
+    - hardcoded=myvalue
+secretGenerator:
+- name: my-secret
+  files:
+  - secret.properties
+generatorOptions:
+  disableNameSuffixHash: true
+

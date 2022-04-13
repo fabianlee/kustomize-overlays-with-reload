@@ -1,0 +1,67 @@
+
+
+resources:
+- ../../base/nginx-index-html
+
+namespace: nginx-cm-reloader
+nameSuffix: "-reloader"
+
+# add annotation that allows configmap reloading
+# 'nginx-cm' is the name of configmap, BUT with nameSuffix above, need to tack on '-reloader'
+commonAnnotations:
+  configmap.reloader.stakater.com/reload: nginx-cm-reloader,env-cm-reloader,env-additional-cm-reloader
+
+configMapGenerator:
+- name: nginx-cm
+  behavior: replace
+  files:
+  - cm-index.html
+configMapGenerator:
+- name: env-cm
+  envs:
+  - env.properties
+- name: literal-cm
+  literals:
+    - my_literal="xyz"
+- name: env-additional-cm
+  envs:
+  - additional.properties
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+patches:
+
+- patch: |-
+    - op: add
+      path: '/spec/template/spec/containers/0/env'
+      value:
+        # literal value inline
+        - name: my_static_value
+          value: "1"
+        # literal value from configmap
+        - name: my_literal
+          valueFrom:
+            configMapKeyRef:
+              name: literal-cm-reloader
+              key: my_literal
+        # single key from env file configmap
+        - name: my_additional
+          valueFrom:
+            configMapKeyRef:
+              name: env-additional-cm-reloader
+              key: my_additional
+  target:
+    kind: Deployment
+    name: nginx-deployment
+
+- patch: |-
+    # all keys from env configmap
+    - op: add
+      path: '/spec/template/spec/containers/0/envFrom'
+      value:
+        - configMapRef:
+            name: env-cm-reloader
+  target:
+    kind: Deployment
+    name: nginx-deployment

@@ -1,0 +1,37 @@
+
+namespace: tiny-tools-dep-to-ds
+
+resources:
+- ../../base/tiny-tools-dep
+
+patchesStrategicMerge:
+#- tiny-tools-merge-limits.yaml
+- tiny-tools-labels.yaml
+
+#patchesJson6902:
+#- target:
+#    kind: Deployment
+#    name: tiny-tools-ds
+#    #group: apps
+#    #version: v1
+#  path: op-sidecar.yaml
+
+patches:
+- patch: |
+    - op: replace
+      path: '/metadata/name'
+      value: 'tiny-tools-dep-to-ds'
+    - op: add
+      path: '/kind'
+      value: 'DaemonSet'
+    - op: remove
+      path: '/spec/replicas'
+    - op: remove
+      path: '/spec/template/spec/affinity'
+  target:
+    kind: Deployment
+    name: tiny-tools-dep
+    #group: apps
+    #version: v1
+
+

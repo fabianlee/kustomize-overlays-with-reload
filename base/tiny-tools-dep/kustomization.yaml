@@ -1,0 +1,8 @@
+---
+
+namespace: tiny-tools-dep
+
+resources:
+- namespace.yaml
+- deployment.yaml
+

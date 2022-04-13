@@ -1,0 +1,8 @@
+---
+
+namespace: tiny-tools-ds
+
+resources:
+- namespace.yaml
+- daemonset.yaml
+

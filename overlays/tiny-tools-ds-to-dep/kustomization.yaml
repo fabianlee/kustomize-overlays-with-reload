@@ -1,0 +1,41 @@
+
+namespace: tiny-tools-ds-to-dep
+
+resources:
+- ../../base/tiny-tools-ds
+
+patchesStrategicMerge:
+- tiny-tools-labels.yaml
+
+patches:
+- patch: |
+    - op: replace
+      path: '/metadata/name'
+      value: 'tiny-tools-ds-to-dep'
+    - op: add
+      path: '/kind'
+      value: 'Deployment'
+    - op: add
+      path: '/spec/replicas'
+      value: 1
+    - op: remove
+      path: '/spec/updateStrategy'
+    - op: add
+      path: '/spec/template/spec/affinity'
+      value:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - tiny-tools
+            topologyKey: "kubernetes.io/hostname"
+  target:
+    kind: DaemonSet
+    name: tiny-tools-ds
+    #group: apps
+    #version: v1
+
+

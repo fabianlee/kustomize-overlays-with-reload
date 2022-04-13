@@ -1,0 +1,18 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tiny-tools-dep
+spec:
+  template:
+    spec:
+      containers:
+        - name: tiny-tools
+          image: giantswarm/tiny-tools:3.11
+          resources:
+          requests:
+            cpu: 200m
+            memory: 8Gi
+          limits:
+            cpu: 400m
+            memory: 16Gi

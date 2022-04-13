@@ -1,0 +1,21 @@
+
+
+resources:
+- ../../base/nginx-index-html
+
+namespace: nginx-reloader
+nameSuffix: "-reloader"
+
+# add annotation that allows configmap reloading
+# 'nginx-cm' is the name of configmap, BUT with nameSuffix above, need to tack on '-reloader'
+commonAnnotations:
+  configmap.reloader.stakater.com/reload: nginx-cm-reloader
+
+configMapGenerator:
+- name: nginx-cm
+  behavior: replace
+  files:
+  - cm-index.html
+
+generatorOptions:
+  disableNameSuffixHash: true
