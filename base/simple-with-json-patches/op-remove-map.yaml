@@ -1,0 +1,2 @@
+- op: remove
+  path: /spec/selector/matchLabels/to_del_6902

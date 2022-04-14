@@ -8,14 +8,32 @@ resources:
 - deployment.yaml
 - service.yaml
 
+#patchesJson6902:
+#- target:
+#    kind: Deployment
+#    name: "simple.*"
+#  path: op-add-map.yaml 
+#  path: op-remove-map.yaml 
+
 # 'patchesJson6902' requires target to have kind+name
 #patchesJson6902:
 # 'patches' is more flexible and can target with name AND/OR label
 patches:
+
+# operations specified in file
 - target:
     kind: Deployment
-    #name: simple-deployment
-    #labelSelector: "app=simple-deployment"
+    #name: "simple.*"
+  path: op-add-map.yaml 
+
+# operations specified inline
+- target:
+    kind: Deployment
+    name: simple-deployment
+#- target:
+#    kind: Deployment
+#    name: simple-deployment
+#    labelSelector: "app=simple-deployment"
 
   patch: |-
 
