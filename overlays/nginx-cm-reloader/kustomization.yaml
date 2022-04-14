@@ -14,8 +14,10 @@ commonAnnotations:
 configMapGenerator:
 - name: nginx-cm
   behavior: replace
+  # key and filename do not have to match
+  # https://kubectl.docs.kubernetes.io/references/kustomize/builtins/#usage-via-kustomizationyaml-1
   files:
-  - cm-index.html
+  - cm-index.html=overlay-index.html
 configMapGenerator:
 - name: env-cm
   envs:
