@@ -1,0 +1,68 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: simple-with-json
+
+resources:
+- namespace.yaml
+- deployment.yaml
+- service.yaml
+
+# 'patchesJson6902' requires target to have kind+name
+#patchesJson6902:
+# 'patches' is more flexible and can target with name AND/OR label
+patches:
+- target:
+    kind: Deployment
+    #name: simple-deployment
+    #labelSelector: "app=simple-deployment"
+
+  patch: |-
+
+    # add to map
+    - op: add
+      path: /spec/template/metadata/labels/foo
+      value: bar
+    # replace element in map (need matchLabels to mirror labels)
+    - op: replace
+      path: /spec/selector/matchLabels/tier
+      value: api
+    - op: replace
+      path: /spec/template/metadata/labels/tier
+      value: api
+    # delete element in map
+    - op: remove
+      path: /spec/selector/matchLabels/to_del
+
+    # add to array
+    - op: add
+      path: /spec/template/spec/containers/0/env/-
+      value:
+        # literal value inline
+        name: my_patched_key
+        value: "true"
+    # replace element in array
+    - op: replace
+      path: /spec/template/spec/containers/0/env/0
+      value:
+       name: my_replaced_key
+       value: My new patched value
+    # remove element in array
+    - op: remove
+      path: /spec/template/spec/containers/0/env/1
+
+    # add complex structure to deployment
+    - op: add
+      path: '/spec/template/spec/affinity'
+      value:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - simple-deployment
+            topologyKey: "kubernetes.io/hostname"
+
+

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-deployment
+  namespace: default
+  labels:
+    app: simple-deployment
+spec:
+  selector:
+    matchLabels:
+      app: simple-deployment
+      to_del: to be removed
+      tier: web
+  template:
+    metadata:
+      labels:
+        app: simple-deployment
+        tier: web
+    spec:
+      containers:
+      - name: simple-app
+        image: gcr.io/google-samples/hello-app:1.0
+        ports:
+        - containerPort: 8080
+        env:
+          - name: my_key
+            value: My value
+          - name: key_todel
+            value: will delete with patch
+        resources:
+          requests:
+            cpu: 200m
