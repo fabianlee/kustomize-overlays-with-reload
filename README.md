@@ -20,6 +20,6 @@ Shows how nginx base can be enriched
 
 Shows the ability of patches to transform a base definition.
 
-* tiny-tools-dep-to-ds - takes 'tiny-tools-ds' base (which is DaemonSet) and converts it to Deployment using kustomoze patches
-* tiny-tools-ds-to-dep - takes 'tiny-tools-dep' base (which is Deployment) and converts it to DaemonSet using kustomoze patches
+* tiny-tools-dep-to-ds - takes 'tiny-tools-ds' base (which is DaemonSet) and converts it to Deployment using kustomize patches
+* tiny-tools-ds-to-dep - takes 'tiny-tools-dep' base (which is Deployment) and converts it to DaemonSet using kustomize patches
 
