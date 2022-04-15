@@ -16,8 +16,15 @@ patches:
 # operations specified in file
 - target:
     kind: Deployment
+    # example of not needing 'name'
     #name: "simple.*"
   path: op-add-map.yaml 
+- target:
+    kind: Deployment
+    # example of using 'labelSelector' instead of name with wildcard
+    #name: "simple.*"
+    labelSelector: "app=simple-deployment"
+  path: op-remove-map.yaml 
 
 # operations specified inline
 - target:

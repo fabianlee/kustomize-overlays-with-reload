@@ -16,7 +16,7 @@ spec:
     metadata:
       labels:
         app: simple-deployment
-        tier: web # will replace with to 'api'
+        tier: web # will change to 'api'
         #foo: bar TO BE ADDED
         #key_added_6902 TO BE ADDED from op file
         #key_added_6902b TO BE ADDED from op file
