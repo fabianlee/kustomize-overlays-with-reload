@@ -1,0 +1,24 @@
+---
+
+namespace: nginx-chart
+
+resources:
+- namespace.yaml
+
+configMapGenerator:
+- name: nginx-cm
+  namespace: default
+  files:
+  - cm-index.html
+
+helmChartInflationGenerator:
+- chartName: nginx
+  chartRepoUrl: https://charts.bitnami.com/bitnami
+  chartVersion: 9.5.4
+  releaseName: my-nginx-release
+  releaseNamespace: nginx-chart
+  values: values.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
