@@ -20,7 +20,7 @@ extraVolumeMounts:
     mountPath: "/usr/share/nginx/html" # /app by default
     readOnly: true
 
-# insert bespoke NGINX configuration
+# insert custom NGINX configuration for healthcheck
 serverBlock: |-
   server {
       listen       8080;

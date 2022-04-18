@@ -2,21 +2,25 @@
 
 namespace: nginx-chart
 
+# make sure namespace exists
 resources:
 - namespace.yaml
 
+# custom index.html file
 configMapGenerator:
 - name: nginx-cm
   namespace: default
   files:
   - cm-index.html
 
+# Bitnami NGINX helm chart
 helmChartInflationGenerator:
 - chartName: nginx
   chartRepoUrl: https://charts.bitnami.com/bitnami
   chartVersion: 9.5.4
   releaseName: my-nginx-release
   releaseNamespace: nginx-chart
+  # override with these custom values
   values: values.yaml
 
 generatorOptions:
