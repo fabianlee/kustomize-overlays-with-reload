@@ -14,4 +14,19 @@ patches:
 - patch-selector.yaml
 - patch-labels.yaml
 - patch-container-env.yaml
+#- patch-container-env-replace.yaml
 - patch-anti-affinity.yaml
+
+# specifying strategic merge patch inline (same as patch-selector.yaml)
+# but also means you cannot match yaml indentation of target
+#- |-
+#  apiVersion: apps/v1
+#  kind: Deployment
+#  metadata:
+#    name: simple-deployment
+#  spec:
+#    selector:
+#      matchLabels:
+#        $patch: replace
+#        tier: api
+#        app: simple-deployment
