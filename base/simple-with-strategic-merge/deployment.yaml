@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-deployment
+  namespace: default
+  labels:
+    app: simple-deployment
+spec:
+  selector:
+    matchLabels:
+      app: simple-deployment
+      to_del: to be removed # will delete
+      to_del_6902: to be removed by 6902 # will delete
+      tier: web # will change to 'api'
+  template:
+    metadata:
+      labels:
+        app: simple-deployment
+        tier: web # will change to 'api'
+        #foo: bar TO BE ADDED
+        #key_added_6902 TO BE ADDED from op file
+        #key_added_6902b TO BE ADDED from op file
+    spec:
+      # podAntiAffinity TO BE ADDED
+      containers:
+      - name: simple-app
+        image: gcr.io/google-samples/hello-app:1.0
+        ports:
+        - containerPort: 8080
+        env:
+          - name: my_key # will replace with 'my_replaced_key'
+            value: My value
+          - name: key_todel # will delete
+            value: will delete with patch
+          # will add 'my_patched_key'
+        resources:
+          requests:
+            cpu: 200m

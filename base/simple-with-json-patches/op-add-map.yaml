@@ -1,6 +1,6 @@
 - op: add
   path: /spec/template/metadata/labels/key_added_6902
-  value: value from op file, in patches
+  value: value1
 - op: add
   path: /spec/template/metadata/labels/key_added_6902b
-  value: value from op file, in patchesb
+  value: value2

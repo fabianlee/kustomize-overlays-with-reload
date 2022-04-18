@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: simple-with-merge
+
+resources:
+- namespace.yaml
+- deployment.yaml
+- service.yaml
+
+patchesStrategicMerge:
+- patch-selector.yaml
+- patch-labels.yaml
+- patch-container-env.yaml
+- patch-anti-affinity.yaml

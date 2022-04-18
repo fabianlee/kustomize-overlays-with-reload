@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-deployment
+spec:
+  template:
+    spec:
+      containers:
+      - name: simple-app
+        env:
+        - name: my_replaced_key
+          value: My new patched value
+        - $patch: replace
+        - $patch: delete
+          name: key_todel
+        - name: my_patched_key
+          value: "true"

@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-deployment
+spec:
+  selector:
+    matchLabels:
+      $patch: replace
+      tier: api
+      app: simple-deployment
+

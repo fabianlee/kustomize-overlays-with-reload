@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-deployment
+spec:
+  template:
+    metadata:
+      labels:
+        tier: api
+        foo: bar
+        key_added_6902: value1
+        key_added_6902b: value2
