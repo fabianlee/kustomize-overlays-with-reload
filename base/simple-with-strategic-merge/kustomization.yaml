@@ -8,7 +8,9 @@ resources:
 - deployment.yaml
 - service.yaml
 
-patchesStrategicMerge:
+#patchesStrategicMerge:
+# 'patches' keyword senses patch types below are strategic merge
+patches:
 - patch-selector.yaml
 - patch-labels.yaml
 - patch-container-env.yaml
