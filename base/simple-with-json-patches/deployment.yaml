@@ -9,8 +9,8 @@ spec:
   selector:
     matchLabels:
       app: simple-deployment
-      to_del: to be removed # will delete
-      to_del_6902: to be removed by 6902 # will delete
+      to_del: to_be_removed # will delete
+      to_del_6902: to_be_removed # will delete
       tier: web # will change to 'api'
   template:
     metadata:
