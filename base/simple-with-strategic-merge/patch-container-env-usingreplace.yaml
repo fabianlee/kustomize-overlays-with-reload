@@ -8,6 +8,7 @@ spec:
       containers:
       - name: simple-app
         env:
+        - $patch: replace
         - name: my_replaced_key
           value: My new patched value
         - name: my_patched_key

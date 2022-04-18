@@ -13,9 +13,9 @@ resources:
 patches:
 - patch-selector.yaml
 - patch-labels.yaml
-- patch-container-env.yaml
-#- patch-container-env-replace.yaml
 - patch-anti-affinity.yaml
+- patch-container-env-usingreplace.yaml
+#- patch-container-env-usingdelete.yaml
 
 # specifying strategic merge patch inline (same as patch-selector.yaml)
 # but also means you cannot match yaml indentation of target
