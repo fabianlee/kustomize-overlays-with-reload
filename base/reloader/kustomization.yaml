@@ -7,3 +7,10 @@ resources:
 - namespace.yaml
 - https://github.com/stakater/Reloader/deployments/kubernetes
 
+patches:
+# use patch to remove namespace from non-namespaced objects, which would throw error
+- target:
+    kind: "Cluster.*|ServiceAccount.*"
+  patch: |-
+    - op: remove
+      path: /metadata/namespace
